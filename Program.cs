@@ -1,66 +1,64 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-
-using System;
-
-class LuckyNumberGame
+﻿namespace Ass_Q5
 {
-    static void Main()
+
+    internal class Program
     {
-        Console.WriteLine("Enter the number of rounds you wish to play: ");
-        int rounds = int.Parse(Console.ReadLine());
-
-        while(int.TryParse(Console.ReadLine(), out rounds)|| rounds == 0){
-            Console.Write("Invalid input. Please enter a non-zero number.");
-        }
-
-
-        int score = 0;
-
-        Random random = new Random(); // Random number generator
-
-        for (int i = 0; i < rounds; i++)
+        static void Main(string[] args)
         {
-            Console.WriteLine($"Round {i + 1}: Enter your lucky number: ");
-            int luckyNumber = int.Parse(Console.ReadLine());
+            int salesmenCount = 10;
+            int itemsCount = 5;
+            string[] salesmen = new string[salesmenCount];
+            int[,] sales = new int[salesmenCount, itemsCount]; // 2D array for sales data
+            int[] totalSales = new int[salesmenCount];
+            int grandTotal = 0;
 
-            
-            int secretNumber = random.Next(1, 101); // Random number between 1 and 100
-
-            Console.WriteLine($"Secret number is: {secretNumber}");
-
-            if (luckyNumber == secretNumber)
+            for (int i = 0; i < salesmenCount; i++)
             {
-                Console.WriteLine("Draw");
-                score++;
-            }
-            else if (luckyNumber % 2 == 0 && secretNumber % 2 == 0)
-            {
-                Console.WriteLine("Win");
-                score += 3;
-            }
-            else
-            {
-                Console.WriteLine("Loss");
-                score -= 3;
+                Console.Write("Enter salesman name: ");
+                salesmen[i] = Console.ReadLine();
+
+                int total = 0;
+                for (int j = 0; j < itemsCount; j++)
+                {
+                    // Loop for item sales with basic validation for integer input
+                    while (true)
+                    {
+                        Console.Write($"Enter sales for {salesmen[i]} (Item {j + 1}): ");
+                        if (int.TryParse(Console.ReadLine(), out int sale))
+                        {
+                            sales[i, j] = sale;
+                            total += sale;
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid input! Please enter a valid integer for sales.");
+                        }
+                    }
+                }
+                totalSales[i] = total;
+                grandTotal += total;
             }
 
-            Console.WriteLine($"Current score: {score}");
-        }
+            // Sales report
+            Console.WriteLine("\nSales Report:");
+            Console.WriteLine("------------------------------------------------------");
+            Console.WriteLine("Name\t\tItem1\tItem2\tItem3\tItem4\tItem5\tTotalSales");
+            Console.WriteLine("------------------------------------------------------");
 
-        if (score > 0)
-        {
-            Console.WriteLine("Congratulations! You have won!");
-        }
-        else if (score == 0)
-        {
-            Console.WriteLine("It's a draw!");
-        }
-        else
-        {
-            Console.WriteLine("You lost. Better luck next time!");
+            for (int i = 0; i < salesmenCount; i++)
+            {
+                Console.Write($"{salesmen[i]}\t");
+
+                for (int j = 0; j < itemsCount; j++)
+                {
+                    Console.Write($"{sales[i, j]}\t");
+                }
+                Console.WriteLine($"{totalSales[i]}");
+            }
+
+            Console.WriteLine("------------------------------------------------------");
+            Console.WriteLine($"Grand Total Sales: \t\t\t\t\t\t{grandTotal}");
         }
     }
 }
-
-
