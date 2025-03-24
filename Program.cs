@@ -1,77 +1,67 @@
 ﻿using System;
 
-namespace ShapeArea
+class LuckyNumberGame
 {
-    class Program
+    static void Main()
     {
-        static void Main(string[] args)
+        int rounds;
+        int secretNumber = 5; 
+        int totalScore = 0;
+
+        Console.WriteLine("Welcome to the Lucky Number Game!");
+
+        while (true)
         {
-            int attempts = 0;
-            while (attempts < 3)
+            Console.Write("Enter the number of rounds you wish to play (must be at least 1): ");
+            if (int.TryParse(Console.ReadLine(), out rounds) && rounds > 0)
             {
-                Console.WriteLine("Choose a shape to find the area:");
-                Console.WriteLine("'t' for Triangle");
-                Console.WriteLine("'r' for Rectangle");
-                Console.WriteLine("'c' for Circle");
-                Console.Write("Enter your choice: ");
+                break;
+            }
+            Console.WriteLine("Invalid input! Please enter a positive number.");
+        }
 
-                string answer = Console.ReadLine().ToLower();
+        for (int i = 1; i <= rounds; i++)
+        {
+            int luckyNumber;
 
-                switch (answer)
+            while (true)
+            {
+                Console.Write($"Enter your lucky number for round {i}: ");
+                if (int.TryParse(Console.ReadLine(), out luckyNumber))
                 {
-                    case "t":
-                        AreaOfTriangle();
-                        return;
-
-                    case "r":
-                        AreaOfRectangle();
-                        return;
-
-                    case "c":
-                        AreaOfCircle();
-                        return;
-
-                    default:
-                        Console.WriteLine("Invalid choice. Please try again.");
-                        attempts++;
-                        break;
+                    break;
                 }
+                Console.WriteLine("Invalid input! Please enter a valid number.");
             }
 
-            Console.WriteLine("Too many invalid attempts. Exiting program.");
+            int remainder = luckyNumber % secretNumber;
+
+            if (remainder == 0)
+            {
+                Console.WriteLine("It's a draw! Score +1");
+                totalScore += 1;
+            }
+            else if (remainder % 2 == 0)
+            {
+                Console.WriteLine("You win this round! Score +3");
+                totalScore += 3;
+            }
+            else
+            {
+                Console.WriteLine("You lose this round! Score -3");
+                totalScore -= 3;
+            }
         }
 
-        static void AreaOfTriangle()
+        Console.WriteLine("\nGame Over! Your final score is: " + totalScore);
+
+        if (totalScore > 0)
         {
-            Console.Write("Enter base of triangle: ");
-            double b = double.Parse(Console.ReadLine());
-
-            Console.Write("Enter height of triangle: ");
-            double h = double.Parse(Console.ReadLine());
-
-            double A = (b * h) / 2;
-            Console.WriteLine($"Area of Triangle is: {A}");
+            Console.WriteLine("Congratulations! You won the game.");
         }
-
-        static void AreaOfRectangle()
+        else
         {
-            Console.Write("Enter length of rectangle: ");
-            double l = double.Parse(Console.ReadLine());
-
-            Console.Write("Enter width of rectangle: ");
-            double w = double.Parse(Console.ReadLine());
-
-            double A = l * w;
-            Console.WriteLine($"Area of Rectangle is: {A}");
-        }
-
-        static void AreaOfCircle()
-        {
-            Console.Write("Enter radius of circle: ");
-            double r = double.Parse(Console.ReadLine());
-
-            double A = Math.PI * Math.Pow(r, 2);
-            Console.WriteLine($"Area of Circle is: {A}");
+            Console.WriteLine("Better luck next time! You lost the game.");
         }
     }
 }
