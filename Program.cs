@@ -1,64 +1,77 @@
-﻿namespace Ass_Q5
-{
+﻿using System;
 
-    internal class Program
+namespace ShapeArea
+{
+    class Program
     {
         static void Main(string[] args)
         {
-            int salesmenCount = 10;
-            int itemsCount = 5;
-            string[] salesmen = new string[salesmenCount];
-            int[,] sales = new int[salesmenCount, itemsCount]; // 2D array for sales data
-            int[] totalSales = new int[salesmenCount];
-            int grandTotal = 0;
-
-            for (int i = 0; i < salesmenCount; i++)
+            int attempts = 0;
+            while (attempts < 3)
             {
-                Console.Write("Enter salesman name: ");
-                salesmen[i] = Console.ReadLine();
+                Console.WriteLine("Choose a shape to find the area:");
+                Console.WriteLine("'t' for Triangle");
+                Console.WriteLine("'r' for Rectangle");
+                Console.WriteLine("'c' for Circle");
+                Console.Write("Enter your choice: ");
 
-                int total = 0;
-                for (int j = 0; j < itemsCount; j++)
+                string answer = Console.ReadLine().ToLower();
+
+                switch (answer)
                 {
-                    // Loop for item sales with basic validation for integer input
-                    while (true)
-                    {
-                        Console.Write($"Enter sales for {salesmen[i]} (Item {j + 1}): ");
-                        if (int.TryParse(Console.ReadLine(), out int sale))
-                        {
-                            sales[i, j] = sale;
-                            total += sale;
-                            break;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Invalid input! Please enter a valid integer for sales.");
-                        }
-                    }
+                    case "t":
+                        AreaOfTriangle();
+                        return;
+
+                    case "r":
+                        AreaOfRectangle();
+                        return;
+
+                    case "c":
+                        AreaOfCircle();
+                        return;
+
+                    default:
+                        Console.WriteLine("Invalid choice. Please try again.");
+                        attempts++;
+                        break;
                 }
-                totalSales[i] = total;
-                grandTotal += total;
             }
 
-            // Sales report
-            Console.WriteLine("\nSales Report:");
-            Console.WriteLine("------------------------------------------------------");
-            Console.WriteLine("Name\t\tItem1\tItem2\tItem3\tItem4\tItem5\tTotalSales");
-            Console.WriteLine("------------------------------------------------------");
+            Console.WriteLine("Too many invalid attempts. Exiting program.");
+        }
 
-            for (int i = 0; i < salesmenCount; i++)
-            {
-                Console.Write($"{salesmen[i]}\t");
+        static void AreaOfTriangle()
+        {
+            Console.Write("Enter base of triangle: ");
+            double b = double.Parse(Console.ReadLine());
 
-                for (int j = 0; j < itemsCount; j++)
-                {
-                    Console.Write($"{sales[i, j]}\t");
-                }
-                Console.WriteLine($"{totalSales[i]}");
-            }
+            Console.Write("Enter height of triangle: ");
+            double h = double.Parse(Console.ReadLine());
 
-            Console.WriteLine("------------------------------------------------------");
-            Console.WriteLine($"Grand Total Sales: \t\t\t\t\t\t{grandTotal}");
+            double A = (b * h) / 2;
+            Console.WriteLine($"Area of Triangle is: {A}");
+        }
+
+        static void AreaOfRectangle()
+        {
+            Console.Write("Enter length of rectangle: ");
+            double l = double.Parse(Console.ReadLine());
+
+            Console.Write("Enter width of rectangle: ");
+            double w = double.Parse(Console.ReadLine());
+
+            double A = l * w;
+            Console.WriteLine($"Area of Rectangle is: {A}");
+        }
+
+        static void AreaOfCircle()
+        {
+            Console.Write("Enter radius of circle: ");
+            double r = double.Parse(Console.ReadLine());
+
+            double A = Math.PI * Math.Pow(r, 2);
+            Console.WriteLine($"Area of Circle is: {A}");
         }
     }
 }
